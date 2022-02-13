@@ -12,10 +12,12 @@ app.listen(process.env.PORT || 3000, function () {
 app.post("/", function (req, res, next) {
   try {
     const js = req.body;
+    /* Prompt formatted based reuqest body */
     const prompt = `write a ${
       js.type ? "Linkedin introduction" : "cover letter"
     } for a ${js.designation} with following skills ${js.skills.join(", ")}`;
     var axios = require("axios");
+    /* payload for OpenAI */
     var data = JSON.stringify({
       prompt,
       max_tokens: 564,
@@ -37,6 +39,7 @@ app.post("/", function (req, res, next) {
       },
       data: data,
     };
+    //Making the API call to OpenAI
     axios(config).then(function (response) {
       let result = "";
       if (response.data.choices && response.data.choices[0]) {
